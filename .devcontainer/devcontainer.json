@@ -1,23 +1,24 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0-bookworm",
+  "dockerComposeFile": "compose.yaml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "containerEnv": {
+    "COSMOS_CONNECTION_STRING": "AccountEndpoint=https://cosmos-db:8081;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;"
+  },
   "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "ghcr.io/azure/azure-dev/azd:latest": {},
-      "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/azure/azure-dev/azd:latest": {},
+    "ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/git:1": {}
   },
   "customizations": {
       "vscode": {
           "extensions": [
-              "github.vscode-github-actions",
-              "ms-azuretools.azure-dev",
-              "ms-azuretools.vscode-azurefunctions",
-              "ms-azuretools.vscode-azurestaticwebapps",
-              "ms-azuretools.vscode-bicep",
-              "ms-azuretools.vscode-docker",
               "ms-dotnettools.csdevkit",
-              "ms-mssql.mssql"
+              "ms-azuretools.vscode-cosmosdb",
+              "ms-azuretools.vscode-docker"
           ]
       }
   },
-  "postCreateCommand": "npm install --global @azure/static-web-apps-cli"
+  "updateContentCommand": "bash .devcontainer/update.sh",
+  "remoteUser": "vscode"
 }

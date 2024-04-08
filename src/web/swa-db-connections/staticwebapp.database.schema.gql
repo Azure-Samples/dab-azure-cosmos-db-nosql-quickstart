@@ -1,0 +1,8 @@
+type Product @model {
+  id: ID
+  name: String
+  description: String
+  sku: String
+  Cost: decimal
+  Price: decimal
+}

@@ -1,11 +1,12 @@
 {
   "$schema": "https://github.com/Azure/data-api-builder/releases/latest/download/dab.draft.schema.json",
   "data-source": {
-    "database-type": "mssql",
+    "database-type": "cosmosdb_nosql",
     "options": {
-      "set-session-context": false
+      "database": "cosmicworks",
+      "schema": "staticwebapp.database.schema.gql"
     },
-    "connection-string": "@env('SQL_CONNECTION_STRING')"
+    "connection-string": "@env('COSMOS_CONNECTION_STRING')"
   },
   "runtime": {
     "host": {
@@ -16,7 +17,7 @@
   },
   "entities": {
     "product": {
-      "source": "SalesLT.Product",
+      "source": "products",
       "permissions": [
         {
           "actions": [

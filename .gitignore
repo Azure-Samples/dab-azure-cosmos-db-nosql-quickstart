@@ -19,6 +19,8 @@ src/web/wwwroot
 
 # Mono auto generated files
 mono_crash.*
+*.mono
+.mono/
 
 # Build results
 [Dd]ebug/
