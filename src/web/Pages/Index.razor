@@ -6,8 +6,8 @@
 
 @if (loading)
 {
-    <div class="h-svh overflow-hidden flex items-center justify-center bg-slate-950">
-        <svg class="animate-bounce h-36 stroke-slate-400 text-slate-400" xmlns="http://www.w3.org/2000/svg"
+    <div class="h-svh overflow-hidden flex items-center justify-center bg-emerald-950">
+        <svg class="animate-bounce h-36 stroke-emerald-400 text-emerald-400" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd"
                 d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-.53 14.03a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V8.25a.75.75 0 0 0-1.5 0v5.69l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3Z"
@@ -21,7 +21,7 @@ else
         <div class="flex flex-col items-center">
             <div class="text-4xl text-black">Products Finder</div>
             <button @onclick="LoadProducts"
-                class="my-1 px-4 py-1 text-sm text-white bg-blue-600 font-semibold rounded-md border hover:text-blue-600 hover:bg-white flex flex-row items-center justify-start space-x-2">
+                class="my-1 px-4 py-1 text-sm text-white bg-emerald-800 font-semibold rounded-md border hover:text-emerald-600 hover:bg-emerald-200 flex flex-row items-center justify-start space-x-2">
                 @(count.HasValue ? "Reload products" : "Load products")
             </button>
         </div>
@@ -37,27 +37,27 @@ else
                     <div class="font-extralight">@count</div>
                 </div>
             </div>
-            <table class="table-auto border-collapse border border-slate-900 w-3/4 mx-auto">
+            <table class="table-auto border-collapse border border-emerald-900 w-3/4 mx-auto">
                 <thead>
-                    <th class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-center">&nbsp;
+                    <th class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-center">&nbsp;
                     </th>
-                    <th class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-left">Name</th>
-                    <th class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-left">SKU</th>
-                    <th class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-left">Price</th>
-                    <th class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-left">Released
+                    <th class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-left">Name</th>
+                    <th class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-left">SKU</th>
+                    <th class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-left">Price</th>
+                    <th class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-left">Released
                     </th>
                 </thead>
                 <tbody>
                     @foreach (var product in products)
                     {
                         <tr>
-                            <td class="border bg-slate-950 border-slate-900 font-semibold px-4 py-2 text-slate-200 text-right">
+                            <td class="border bg-emerald-950 border-emerald-900 font-semibold px-4 py-2 text-emerald-200 text-right">
                                 @product.ProductID</td>
-                            <td class="border border-slate-900 px-2 text-slate-900 text-left">@product.Name</td>
-                            <td class="border border-slate-900 px-2 text-slate-900 italic text-left">@product.ProductNumber</td>
-                            <td class="border border-slate-900 px-2 text-slate-900 text-sm text-right">@($"{product.ListPrice:C}")
+                            <td class="border border-emerald-900 px-2 text-emerald-900 text-left">@product.Name</td>
+                            <td class="border border-emerald-900 px-2 text-emerald-900 italic text-left">@product.ProductNumber</td>
+                            <td class="border border-emerald-900 px-2 text-emerald-900 text-sm text-right">@($"{product.ListPrice:C}")
                             </td>
-                            <td class="border border-slate-900 px-2 text-slate-900 font-light italic text-left">
+                            <td class="border border-emerald-900 px-2 text-emerald-900 font-light italic text-left">
                                 @(product.SellStartDate.Humanize())</td>
                         </tr>
                     }

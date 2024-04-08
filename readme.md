@@ -1,17 +1,17 @@
-# Quickstart: Data API builder and Azure SQL database
+# Quickstart: Data API builder and Azure Cosmos DB for NoSQL
 
-This is a Blazor web application that illustrates using Data API builder with Azure SQL. This sample application uses a Blazor WebAssembly front-end to access an Azure SQL database using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder), and business logic using Azure Functions. This quickstart makes use of the [Database connections feature of Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/database-overview).
+This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor WebAssembly front-end to access an Azure Cosmos DB for NoSQL using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder), and business logic using Azure Functions. This quickstart makes use of the [Database connections feature of Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/database-overview).
 
 This template illustrates these practices:
 
 - Using a user-assigned managed identity to connect hosting and database services
   - Using the managed identity to connect the Azure Functions app to the Azure Storage service
-  - Using the same managed identity to connect the Azure Static Web Apps to an Azure SQL server
-  - Assigning the managed identity as the admin for the Azure SQL server
+  - Using the same managed identity to connect the Azure Static Web Apps to an Azure Cosmos DB for NoSQL account
+  - Assigning the managed identity as the admin for the Azure Cosmos DB for NoSQL account
 - Deploying Azure Functions and Azure Static Web App seperately
   - Linking the deployed function app to the static web app
-- Deploying the AdventureWorksLT sample database to Azure SQL database
-- Disabling local and key-based authentication to Azure SQL database and Azure Storage
+- Deploying the AdventureWorksLT sample database to Azure Cosmos DB for NoSQL
+- Disabling local and key-based authentication to Azure Cosmos DB for NoSQL and Azure Storage
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
 1. Run the first-time project setup. Initialize a project in the current directory, using this template.
 
     ```shell
-    azd init --template dab-azure-sql-quickstart
+    azd init --template dab-azure-cosmos-db-nosql-quickstart
     ```
 
     > [!NOTE]
@@ -49,7 +49,7 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
 
 1. Navigate to the **Azure Static Web App** resource in the Azure portal.
 
-1. Configure the static web app to add a **Database Connection** to the Azure SQL database. Ensure you use the built-in **user-assigned managed identity**.
+1. Configure the static web app to add a **Database Connection** to the Azure Cosmos DB for NoSQL. Ensure you use the built-in **user-assigned managed identity**.
 
     ![Screenshot of the database connection page for a static web app in the Azure portal.](media/database-connection-config.png)
 
@@ -93,8 +93,8 @@ This application utilizes the following Azure resources:
     - The data API is powered by [Data API builder](https://learn.microsoft.com/azure/data-api-builder/)
 - [**Azure Functions**](https://learn.microsoft.com/azure/functions/)
     - This service hosts the .NET business logic API
-- [**Azure SQL**](https://learn.microsoft.com/azure/azure-sql/) 
-    - This service stores the SQL data
+- [**Azure Cosmos DB for NoSQL**](https://learn.microsoft.com/azure/cosmos-db/nosql/) 
+    - This service stores the NoSQL data
 - [**Azure Storage**](https://learn.microsoft.com/azure/storage/)
     - This services stores the Azure Functions metadata
 
@@ -109,13 +109,13 @@ flowchart TB
     subgraph azure-func[Azure Functions]
         func-framework([.NET 8 - Isolated])
     end
-    subgraph azure-sql[Azure SQL]
-        subgraph database-adventureworkslt[Database: AdventureWorksLT]
-            subgraph table-product[Table: SalesLT.Product]
+    subgraph azure-cosmos-db-nosql[Azure Cosmos DB for NoSQL]
+        subgraph database-adventureworkslt[Database: CosmicWorks]
+            subgraph container-product[Container: Products]
             end
         end
     end
-    web-app --> azure-sql
+    web-app --> azure-cosmos-db-nosql
     web-app --> azure-func
 ```
 
