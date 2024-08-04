@@ -1,28 +1,30 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: dab-azure-sql-quickstart
-workflows:
-  up: 
-    steps:
-      - azd: provision
-      - azd: deploy
+name: dab-azure-cosmos-db-nosql-quickstart
 services:
   web:
     project: ./src/web
-    language: csharp
-    host: staticwebapp
-    dist: build/wwwroot
-    hooks:
-      predeploy:
-        posix:
-          shell: sh
-          run: dotnet publish -c Release --output ./build
-        windows:
-          shell: pwsh
-          run: dotnet publish -c Release --output ./build
+    language: dotnet
+    host: containerapp
   api:
     project: ./src/api
     language: dotnet
-    host: function
-pipeline:
-  provider: github
+    host: containerapp
+hooks:
+  postprovision:
+    run: |
+      dotnet user-secrets set "AzureCosmosDb:Endpoint" "$AZURE_COSMOS_DB_ENDPOINT"
+    windows:
+      shell: pwsh
+      run: |
+        dotnet user-secrets set "AzureCosmosDb:UseEmulator" "false"
+        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$env:AZURE_COSMOS_DB_ENDPOINT"
+      continueOnError: false
+      interactive: true
+    posix:
+      shell: sh
+      run: |
+        dotnet user-secrets set "AzureCosmosDb:UseEmulator" "false"
+        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$AZURE_COSMOS_DB_ENDPOINT"
+      continueOnError: false
+      interactive: true
