@@ -11,6 +11,7 @@ module storage '../core/storage/account.bicep' = {
     name: accountName
     location: location
     tags: tags
+    allowSharedKeyAccess: false
   }
 }
 

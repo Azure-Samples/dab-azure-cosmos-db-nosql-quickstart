@@ -56,6 +56,13 @@ module database 'app/database.bicep' = {
   }
 }
 
+module security 'app/security.bicep' = {
+  name: 'security'
+  scope: resourceGroup
+  params: {
+  }
+}
+
 module seed 'app/seed.bicep' = {
   name: 'seed'
   scope: resourceGroup
