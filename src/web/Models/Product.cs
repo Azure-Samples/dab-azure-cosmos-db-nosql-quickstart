@@ -1,4 +1,4 @@
-namespace DAB.Samples.AzureSQL.Quickstart.Web.Models;
+namespace DAB.Samples.AzureCosmosDBNoSQL.Quickstart.Web.Models;
 
 public record Product(
     int ProductID,

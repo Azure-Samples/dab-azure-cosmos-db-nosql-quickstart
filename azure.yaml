@@ -5,26 +5,18 @@ services:
   web:
     project: ./src/web
     language: dotnet
-    host: containerapp
-  api:
-    project: ./src/api
-    language: dotnet
-    host: containerapp
+    host: containerapp                                                                                  
 hooks:
   postprovision:
-    run: |
-      dotnet user-secrets set "AzureCosmosDb:Endpoint" "$AZURE_COSMOS_DB_ENDPOINT"
     windows:
       shell: pwsh
       run: |
-        dotnet user-secrets set "AzureCosmosDb:UseEmulator" "false"
-        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$env:AZURE_COSMOS_DB_ENDPOINT"
+        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$env:DATA_API_BUILDER_ENDPOINT"
       continueOnError: false
       interactive: true
     posix:
       shell: sh
       run: |
-        dotnet user-secrets set "AzureCosmosDb:UseEmulator" "false"
-        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$AZURE_COSMOS_DB_ENDPOINT"
+        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$DATA_API_BUILDER_ENDPOINT"
       continueOnError: false
       interactive: true

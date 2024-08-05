@@ -1,12 +1,12 @@
 # Quickstart: Data API builder and Azure Cosmos DB for NoSQL
 
-This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor WebAssembly front-end to access an Azure Cosmos DB for NoSQL using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder), and business logic using Azure Functions. This quickstart makes use of the [Database connections feature of Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/database-overview).
+This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor WebAssembly front-end to access an Azure Cosmos DB for NoSQL account using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder) container image.
 
 This template illustrates these practices:
 
 - Using a user-assigned managed identity to connect hosting and database services
-  - Using the managed identity to connect the Azure Container Apps app to an Azure Cosmos DB for NoSQL account
-  - Assigning the managed identity as the admin for the Azure Cosmos DB for NoSQL account
+  - Using managed identity to connect Azure Container Apps containers to an Azure Cosmos DB for NoSQL account
+  - Assigning managed identity as the admin for the Azure Cosmos DB for NoSQL account
 - Deploying a AdventureWorks-derived sample database to Azure Cosmos DB for NoSQL
 - Disabling local and key-based authentication to Azure Cosmos DB for NoSQL
 
@@ -49,15 +49,15 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
     > [!TIP]
     > Azure Developer CLI will output the URL of the web application after deployment.
 
-    ![Screenshot of the running web application on Azure Static Web Apps.](media/running-application.png)
+    ![Screenshot of the running web application on Azure Container Apps.](media/running-application.png)
 
 ## Application Architecture
 
 This application utilizes the following Azure resources:
 
-- [**Azure Container Apps**](https://learn.microsoft.com/azure/static-web-apps/)
+- [**Azure Container Apps**](https://learn.microsoft.com/azure/container-apps/)
     - This service hosts the ASP.NET Blazor WebAssembly web application
-    - This service also hosts the ASP.NET Miminal Web API application
+    - This service also hosts the Data API builder container
 - [**Azure Cosmos DB for NoSQL**](https://learn.microsoft.com/azure/cosmos-db/nosql/) 
     - This service stores the NoSQL data
 
@@ -68,15 +68,18 @@ Here's a high level architecture diagram that illustrates these components. Noti
 flowchart TB
     subgraph web-app[Azure Container Apps]
         app-framework([.NET 8 - Blazor WASM])
-        api-framework([.NET 8 - Web API])
+    end
+    subgraph data-api-builder[Azure Container Apps]
+        api-framework[[Data API builder]]
     end
     subgraph azure-cosmos-db-nosql[Azure Cosmos DB for NoSQL]
-        subgraph database-adventureworkslt[Database: CosmicWorks]
-            subgraph container-product[Container: Products]
+        subgraph database-cosmicworks[Database: CosmicWorks]
+            subgraph container-products[Container: Products]
             end
         end
     end
-    web-app --> azure-cosmos-db-nosql
+    web-app --> data-api-builder
+    data-api-builder --> azure-cosmos-db-nosql
 ```
 
 ## Cost of provisioning and deploying this template

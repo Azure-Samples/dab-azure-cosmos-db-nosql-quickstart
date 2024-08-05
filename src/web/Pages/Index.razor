@@ -22,10 +22,10 @@ else
             <div class="text-4xl text-black">Products Finder</div>
             <button @onclick="LoadProducts"
                 class="my-1 px-4 py-1 text-sm text-white bg-emerald-800 font-semibold rounded-md border hover:text-emerald-600 hover:bg-emerald-200 flex flex-row items-center justify-start space-x-2">
-                @(count.HasValue ? "Reload products" : "Load products")
+                @(products.Any() ? "Load products" : "Reload products")
             </button>
         </div>
-        @if (count.HasValue)
+        @if (!products.Any())
         {
             <div
                 class="my-4 p-4 max-w-xl mx-auto bg-black text-white rounded-xl shadow-lg flex flex-col items-stretch space-y-3">
@@ -34,7 +34,7 @@ else
                 </div>
                 <div class="self-start grid grid-cols-2 gap-y-1 gap-x-6">
                     <div class="font-semibold">Count:</div>
-                    <div class="font-extralight">@count</div>
+                    <div class="font-extralight">@products.Count()</div>
                 </div>
             </div>
             <table class="table-auto border-collapse border border-emerald-900 w-3/4 mx-auto">
@@ -69,24 +69,17 @@ else
 
 @code {
     List<Product> products = new();
-    int? count = null;
     bool loading = false;
 
     private async Task LoadProducts()
     {
         loading = true;
-        count = null;
         products.Clear();
         await Task.Yield();
 
-        var productResponse = await Http.GetAsync("data-api/api/product");
+        var productResponse = await Http.GetAsync("api/product");
         var items = await productResponse.Content.ReadFromJsonAsync<Payload<Product>>();
         products.AddRange(items?.Value ?? Enumerable.Empty<Product>());
-        await Task.Yield();
-
-        var insightsResponse = await Http.PostAsJsonAsync("api/insights", products);
-        var insights = await insightsResponse.Content.ReadFromJsonAsync<Insights>();
-        count = insights?.Count ?? 0;
         await Task.Yield();
 
         loading = false;

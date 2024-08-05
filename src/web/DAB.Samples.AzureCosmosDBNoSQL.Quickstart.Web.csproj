@@ -9,5 +9,6 @@
     <PackageReference Include="Humanizer" Version="2.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.*" />
   </ItemGroup>
 </Project>
