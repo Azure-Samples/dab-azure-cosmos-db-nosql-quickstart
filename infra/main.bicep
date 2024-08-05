@@ -11,6 +11,7 @@ param location string
 
 // Optional parameters
 param cosmosDbAccountName string = ''
+param storageAccountName string = ''
 param containerAppsEnvName string = ''
 param containerAppsWebAppName string = ''
 param containerAppsDataApiBuilderAppName string = ''
@@ -55,12 +56,36 @@ module database 'app/database.bicep' = {
   }
 }
 
+module seed 'app/seed.bicep' = {
+  name: 'seed'
+  scope: resourceGroup
+  params: {
+    location: location
+    tags: tags
+    userAssignedManagedIdentity: {
+      name: identity.outputs.name
+      resourceId: identity.outputs.resourceId
+      clientId: identity.outputs.clientId
+    }
+    databaseAccountEndpoint: database.outputs.endpoint
+  }
+}
 
 module env 'app/environment.bicep' = {
   name: 'environment'
   scope: resourceGroup
   params: {
     envName: !empty(containerAppsEnvName) ? containerAppsEnvName : '${abbreviations.containerAppsEnv}-${resourceToken}'
+    location: location
+    tags: tags
+  }
+}
+
+module storage 'app/storage.bicep' = {
+  name: 'storage'
+  scope: resourceGroup
+  params: {
+    accountName: !empty(storageAccountName) ? storageAccountName : '${abbreviations.storageAccount}${resourceToken}'
     location: location
     tags: tags
   }
@@ -95,7 +120,6 @@ module web 'app/web.bicep' = {
     apiEndpoint: api.outputs.endpoint
   }
 }
-
 
 // Application outputs
 output AZURE_WEB_APP_ENDPOINT string = web.outputs.endpoint

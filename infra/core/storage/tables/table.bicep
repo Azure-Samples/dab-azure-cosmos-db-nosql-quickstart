@@ -11,6 +11,7 @@ param parentServiceName string
 resource account 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: parentAccountName
 }
+
 resource service 'Microsoft.Storage/storageAccounts/tableServices@2022-09-01' existing = {
   name: parentServiceName
   parent: account
