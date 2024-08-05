@@ -1,8 +1,6 @@
 {
-  "staticWebApps": "swa",
-  "appServicePlans": "plan",
-  "storageAccounts": "stor",
-  "functionApps": "func",
-  "sqlServers": "srvr",
+  "containerAppsEnv": "container-env",
+  "containerAppsApp": "container-app",
+  "cosmosDbAccount": "cosmos-db-nosql",
   "userAssignedIdentity": "ua-id"
 }

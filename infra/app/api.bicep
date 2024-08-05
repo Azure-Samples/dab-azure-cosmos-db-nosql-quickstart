@@ -1,16 +1,12 @@
-metadata description = 'Create API application resources.'
+metadata description = 'Create API contianer resources.'
 
-param planName string
-param funcName string
+param appName string
 
-param serviceTag string
 param location string = resourceGroup().location
 param tags object = {}
 
-@description('The name of the storage account to use for the function app.')
-param storageAccountName string
-
 type managedIdentity = {
+  name: string
   resourceId: string
   clientId: string
 }
@@ -18,60 +14,47 @@ type managedIdentity = {
 @description('Unique identifier for user-assigned managed identity.')
 param userAssignedManagedIdentity managedIdentity
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' existing = {
-  name: storageAccountName
-}
+@description('Name of the environment where the application will be hosted.')
+param envName string
 
-module plan '../core/host/app-service/plan.bicep' = {
-  name: 'function-app-plan'
+@description('Endpoint for Azure Cosmos DB for NoSQL account.')
+param databaseAccountEndpoint string
+
+module containerAppsApp '../core/host/container-apps/app.bicep' = {
+  name: 'container-apps-app-${appName}'
   params: {
-    name: planName
+    name: appName
+    parentEnvironmentName: envName
     location: location
     tags: tags
-    kind: 'linux'
-    sku: 'B1'
-    tier: 'Basic'
-  }
-}
-
-module func '../core/host/app-service/site.bicep' = {
-  name: 'function-app-site'
-  params: {
-    name: funcName
-    location: location
-    tags: union(
-      tags,
-      {
-        'azd-service-name': serviceTag
-      }
-    )
     enableSystemAssignedManagedIdentity: false
     userAssignedManagedIdentityIds: [
       userAssignedManagedIdentity.resourceId
     ]
-    alwaysOn: true
-    parentPlanName: plan.outputs.name
-    kind: 'functionapp,linux'
-    runtimeName: 'dotnet-isolated'
-    runtimeVersion: '8.0'
+    targetPort: 5000
+    containerImage: 'mcr.microsoft.com/azure-databases/data-api-builder:latest'
+    secrets: [
+      {
+        name: 'azure-cosmos-db-nosql-endpoint' // Create a uniquely-named secret
+        value: databaseAccountEndpoint // NoSQL database account endpoint
+      }
+      {
+        name: 'azure-managed-identity-client-id' // Create a uniquely-named secret
+        value: userAssignedManagedIdentity.clientId // Client ID of user-assigned managed identity
+      }
+    ]
+    environmentVariables: [
+      {
+        name: 'AZURE_COSMOS_DB_NOSQL_ENDPOINT' // Name of the environment variable referenced in the application
+        secretRef: 'azure-cosmos-db-nosql-endpoint' // Reference to secret
+      }
+      {
+        name: 'AZURE_CLIENT_ID' // Name of the environment variable referenced in the application
+        secretRef: 'azure-managed-identity-client-id' // Reference to secret
+      }
+    ]
   }
 }
 
-module config '../core/host/app-service/config-appsettings.bicep' = {
-  name: 'function-app-config-app-settings'
-  params: {
-    parentSiteName: func.outputs.name
-    appSettings: {
-      AzureWebJobsStorage__accountName: storageAccount.name
-      AzureWebJobsStorage__credential: 'managedidentity'
-      AzureWebJobsStorage__clientId: userAssignedManagedIdentity.clientId
-      SCM_DO_BUILD_DURING_DEPLOYMENT: false
-      ENABLE_ORYX_BUILD: true
-      FUNCTIONS_EXTENSION_VERSION: '~4'
-      FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated'
-    }
-  }
-}
-
-output name string = func.outputs.name
-output endpoint string = func.outputs.endpoint
+output name string = containerAppsApp.outputs.name
+output endpoint string = containerAppsApp.outputs.endpoint

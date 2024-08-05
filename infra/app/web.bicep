@@ -1,4 +1,4 @@
-metadata description = 'Create web application resources.'
+metadata description = 'Create web container resources.'
 
 param appName string
 
@@ -6,44 +6,37 @@ param serviceTag string
 param location string = resourceGroup().location
 param tags object = {}
 
-type managedIdentity = {
-  name: string
-  resourceId: string
-  clientId: string
-}
+@description('Name of the environment where the application will be hosted.')
+param envName string
 
-@description('Unique identifier for user-assigned managed identity.')
-param userAssignedManagedIdentity managedIdentity
+@description('Endpoint for the API container.')
+param apiEndpoint string
 
-@description('Name of the linked backend Azure Functions app.')
-param functionAppName string
-
-module web '../core/host/static-web-app/app.bicep' = {
-  name: 'static-web-app'
+module containerAppsApp '../core/host/container-apps/app.bicep' = {
+  name: 'container-apps-app-${appName}'
   params: {
     name: appName
+    parentEnvironmentName: envName
     location: location
-    tags: union(
-      tags,
-      {
-        'azd-service-name': serviceTag
-      }
-    )
-    sku: 'Standard'
+    tags: union(tags, {
+      'azd-service-name': serviceTag
+    })
     enableSystemAssignedManagedIdentity: false
-    userAssignedManagedIdentityIds: [
-      userAssignedManagedIdentity.resourceId
+    targetPort: 8080
+    secrets: [
+      {
+        name: 'azure-container-app-endpoint' // Create a uniquely-named secret
+        value: apiEndpoint // Azure Container App endpoint
+      }
+    ]
+    environmentVariables: [
+      {
+        name: 'DATAAPIBUILDER__ENDPOINT' // Name of the environment variable referenced in the application
+        secretRef: 'azure-container-app-endpoint' // Reference to secret
+      }
     ]
   }
 }
 
-module backend '../core/host/static-web-app/backend.bicep' = {
-  name: 'static-web-app-backend'
-  params: {
-    parentSiteName: web.outputs.name
-    functionAppName: functionAppName
-  }
-}
-
-output name string = web.outputs.name
-output endpoint string = web.outputs.uri
+output name string = containerAppsApp.outputs.name
+output endpoint string = containerAppsApp.outputs.endpoint

@@ -11,12 +11,12 @@ hooks:
     windows:
       shell: pwsh
       run: |
-        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$env:DATA_API_BUILDER_ENDPOINT"
+        dotnet user-secrets set "DataApiBuilder:Endpoint" "$env:DATA_API_BUILDER_ENDPOINT"
       continueOnError: false
       interactive: true
     posix:
       shell: sh
       run: |
-        dotnet user-secrets set "AzureCosmosDb:Endpoint" "$DATA_API_BUILDER_ENDPOINT"
+        dotnet user-secrets set "DataApiBuilder:Endpoint" "$DATA_API_BUILDER_ENDPOINT"
       continueOnError: false
       interactive: true
