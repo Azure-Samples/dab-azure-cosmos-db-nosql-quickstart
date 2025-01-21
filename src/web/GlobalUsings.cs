@@ -1,0 +1,2 @@
+global using Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.Components;
+global using Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.Models;

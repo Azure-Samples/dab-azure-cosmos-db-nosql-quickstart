@@ -1,21 +1,22 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Options;
-using DAB.Samples.AzureCosmosDBNoSQL.Quickstart.Web;
-using DAB.Samples.AzureCosmosDBNoSQL.Quickstart.Web.Options;
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
-builder.Services.AddOptions<DataApiBuilder>(nameof(DataApiBuilder));
+WebApplication app = builder.Build();
 
-builder.Services.AddScoped(serviceProvider =>
+if (!app.Environment.IsDevelopment())
 {
-    var options = serviceProvider.GetRequiredService<IOptions<DataApiBuilder>>().Value;
-    ArgumentException.ThrowIfNullOrEmpty(options.Endpoint, nameof(options.Endpoint));
-    var client = new HttpClient { BaseAddress = new Uri(options.Endpoint) };
-    return client;
-});
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
 
-await builder.Build().RunAsync();
+app.UseHttpsRedirection();
+
+app.UseAntiforgery();
+
+app.MapStaticAssets();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run();

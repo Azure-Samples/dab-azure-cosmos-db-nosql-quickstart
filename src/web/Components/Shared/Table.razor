@@ -1,0 +1,28 @@
+<table class="min-w-full shadow-md rounded-lg">
+    <thead class="bg-gray-100 prose prose-stone prose-lg">
+        <tr>
+            <th class="w-1/12 px-4 py-2 text-center">#</th>
+            <th class="w-3/12 px-4 py-2 text-left">Name</th>
+            <th class="w-2/12 px-4 py-2 text-left">SKU</th>
+            <th class="w-2/12 px-4 py-2 text-left">Price</th>
+            <th class="w-2/12 px-4 py-2 text-left">Released</th>
+        </tr>
+    </thead>
+    <tbody class="text-gray-700 prose prose-sm">
+        @foreach (var product in Products)
+        {
+            <tr class="border-b">
+                <td class="px-4 py-2 text-center">@product.ProductID</td>
+                <td class="px-4 py-2">@product.Name</td>
+                <td class="px-4 py-2">@product.ProductNumber</td>
+                <td class="px-4 py-2">@($"{product.ListPrice:C}")</td>
+                <td class="px-4 py-2">@product.SellStartDate.Humanize()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public required IEnumerable<Product> Products { get; init; }
+}

@@ -1,0 +1,37 @@
+<section class="flex justify-around p-4">
+    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+        <span class="prose prose-lg font-light">
+            Number of items:
+        </span>
+        <span class="prose prose-xl font-semibold text-center mt-2">
+            @($"{NumberOfItems:0}")
+        </span>
+    </div>
+    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+        <span class="prose prose-lg font-light">
+            Average price:
+        </span>
+        <span class="prose prose-xl font-semibold text-center mt-2">
+            @($"{AveragePrice:C}")
+        </span>
+    </div>
+    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+        <span class="prose prose-lg font-light">
+            Most recent release:
+        </span>
+        <span class="prose prose-xl font-semibold text-center mt-2">
+            @($"{MostRecentRelease:M}")
+        </span>
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public required int NumberOfItems { get; init; }
+
+    [Parameter]
+    public required decimal AveragePrice { get; init; }
+
+    [Parameter]
+    public required DateTime MostRecentRelease { get; init; }
+}

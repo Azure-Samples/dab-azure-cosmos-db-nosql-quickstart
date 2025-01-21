@@ -1,7 +1,0 @@
-{
-  "containerAppsEnv": "container-env",
-  "containerAppsApp": "container-app",
-  "cosmosDbAccount": "cosmos-db-nosql",
-  "storageAccount": "storage",
-  "userAssignedIdentity": "ua-id"
-}

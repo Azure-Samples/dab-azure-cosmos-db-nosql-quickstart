@@ -94,4 +94,11 @@ This template is structured using the [Azure Developer CLI](https://aka.ms/azure
 
 At this point, you have a complete application deployed on Azure. But there is much more that the Azure Developer CLI can do. These next steps will introduce you to additional commands that will make creating applications on Azure much easier.
 
-- [`azd down`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down) - to delete all the Azure resources created with this template 
+- [`azd down`](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference#azd-down) - to delete all the Azure resources created with this template
+
+## Attributions
+
+This project uses 
+
+- [TailwindCSS](https://github.com/tailwindlabs/tailwindcss), licensed under the MIT License
+- [HeroIcons](https://github.com/tailwindlabs/heroicons), licensed under the MIT License
