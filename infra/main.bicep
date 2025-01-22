@@ -104,7 +104,7 @@ module deploymentScriptPs 'br/public:avm/res/resources/deployment-script:0.5.1' 
     scriptContent: '''
         dotnet --list-sdks
   
-        (Get-Module Azure).Version
+        Get-InstalledModule -Name Az -AllVersions
         
         Get-AzContext
       '''
