@@ -1,6 +1,6 @@
 # Quickstart: Data API builder and Azure Cosmos DB for NoSQL
 
-This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor WebAssembly front-end to access an Azure Cosmos DB for NoSQL account using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder) container image.
+This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor front-end to access an Azure Cosmos DB for NoSQL account using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder) container image.
 
 This template illustrates these practices:
 
@@ -17,7 +17,7 @@ This template illustrates these practices:
 The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
 
 - [Azure Developer CLI](https://aka.ms/azd-install)
-- [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET SDK 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)
 
 ## Get started
 
@@ -49,14 +49,14 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
     > [!TIP]
     > Azure Developer CLI will output the URL of the web application after deployment.
 
-    ![Screenshot of the running web application on Azure Container Apps.](media/running-application.png)
+    ![Screenshot of the running web application on Azure Container Apps.](media/web.png)
 
 ## Application Architecture
 
 This application utilizes the following Azure resources:
 
 - [**Azure Container Apps**](https://learn.microsoft.com/azure/container-apps/)
-    - This service hosts the ASP.NET Blazor WebAssembly web application
+    - This service hosts the ASP.NET Blazor web application
     - This service also hosts the Data API builder container
 - [**Azure Cosmos DB for NoSQL**](https://learn.microsoft.com/azure/cosmos-db/nosql/) 
     - This service stores the NoSQL data
@@ -67,7 +67,7 @@ Here's a high level architecture diagram that illustrates these components. Noti
 %%{ init: { 'theme': 'base', 'themeVariables': { 'background': '#243A5E', 'primaryColor': '#50E6FF', 'primaryBorderColor': '#243A5E', 'tertiaryBorderColor': '#50E6FF', 'tertiaryColor': '#243A5E', 'fontFamily': 'Segoe UI', 'lineColor': '#FFFFFF', 'primaryTextColor': '#243A5E', 'tertiaryTextColor': '#FFFFFF' } }}%%
 flowchart TB
     subgraph web-app[Azure Container Apps]
-        app-framework([.NET 8 - Blazor WASM])
+        app-framework([.NET 9 - Blazor])
     end
     subgraph data-api-builder[Azure Container Apps]
         api-framework[[Data API builder]]
