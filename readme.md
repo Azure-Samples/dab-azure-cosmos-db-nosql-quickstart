@@ -62,10 +62,10 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
 
 1. Navigate to the running web application.
 
-    > [!TIP]
-    > Azure Developer CLI will output the URL of the web application after deployment.
-
     ![Screenshot of the running web application on Azure Container Apps.](assets/web.png)
+
+> [!TIP]
+> Azure Developer CLI will output the URL of the web application after deployment.
 
 ## Application Architecture
 
