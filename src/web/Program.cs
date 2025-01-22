@@ -1,3 +1,4 @@
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()

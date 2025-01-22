@@ -1,5 +1,3 @@
-using GraphQL;
-
 namespace Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.Services;
 
 internal sealed class DataApiBuilderProductsService(
