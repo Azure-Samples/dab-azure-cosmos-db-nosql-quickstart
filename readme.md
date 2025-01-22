@@ -1,6 +1,22 @@
+<!--
+---
+page_type: sample
+name: "Quickstart: Data API builder and Azure Cosmos DB for NoSQL"
+description: This is an ASP.NET Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL.
+urlFragment: template
+languages:
+- csharp
+- azdeveloper
+- data-api-builder
+products:
+- azure-cosmos-db
+- azure-container-apps
+---
+-->
+
 # Quickstart: Data API builder and Azure Cosmos DB for NoSQL
 
-This is a Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor front-end to access an Azure Cosmos DB for NoSQL account using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder) container image.
+This is an ASP.NET Blazor web application that illustrates using Data API builder with Azure Cosmos DB for NoSQL. This sample application uses a Blazor front-end to access an Azure Cosmos DB for NoSQL account using the [Data API builder](https://learn.microsoft.com/azure/data-api-builder) container image.
 
 This template illustrates these practices:
 
