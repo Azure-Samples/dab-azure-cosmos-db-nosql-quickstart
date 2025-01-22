@@ -1,13 +1,13 @@
 <section class="flex justify-around p-4">
-    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+    <div class="flex flex-col items-center bg-gray-200 xl:py-4 xl:px-12 md:px-9 md:py-3 sm:px-4 sm:py-2 rounded-lg shadow-md">
         <span class="prose prose-lg font-light">
-            Number of items:
+            Response speed:
         </span>
         <span class="prose prose-xl font-semibold text-center mt-2">
-            @($"{NumberOfItems:0}")
+            @($"{ResponseTime:ss\\.fff} seconds")
         </span>
     </div>
-    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+    <div class="flex flex-col items-center bg-gray-200 xl:py-4 xl:px-12 md:px-9 md:py-3 sm:px-4 sm:py-2 rounded-lg shadow-md">
         <span class="prose prose-lg font-light">
             Average price:
         </span>
@@ -15,23 +15,23 @@
             @($"{AveragePrice:C}")
         </span>
     </div>
-    <div class="flex flex-col items-center bg-gray-200 py-4 px-12 rounded-lg shadow-md">
+    <div class="flex flex-col items-center bg-gray-200 xl:py-4 xl:px-12 md:px-9 md:py-3 sm:px-4 sm:py-2 rounded-lg shadow-md">
         <span class="prose prose-lg font-light">
-            Most recent release:
+            Average cost:
         </span>
         <span class="prose prose-xl font-semibold text-center mt-2">
-            @($"{MostRecentRelease:M}")
+            @($"{AverageCost:C}")
         </span>
     </div>
 </section>
 
 @code {
     [Parameter]
-    public required int NumberOfItems { get; init; }
+    public required TimeSpan ResponseTime { get; init; }
 
     [Parameter]
     public required decimal AveragePrice { get; init; }
 
     [Parameter]
-    public required DateTime MostRecentRelease { get; init; }
+    public required decimal AverageCost { get; init; }
 }

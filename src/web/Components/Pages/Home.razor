@@ -1,22 +1,24 @@
 ﻿@page "/"
+@using System.Diagnostics
 @attribute [StreamRendering]
+@inject IProductsService productsService
 
 <PageTitle>
     Data API builder - Azure Cosmos DB for NoSQL Dashboard
 </PageTitle>
 
 <main class="flex flex-row gap-4 justify-start items-stretch h-screen bg-white font-sans">
-    <nav class="basis-1/5 bg-zinc-100">
+    <nav class="hidden md:block lg:basis-2/5 xl:basis-1/5 bg-zinc-100">
         <Menu />
     </nav>
-    <article class="basis-4/5 overflow-y-auto">
+    <article class="lg:basis-3/5 xl:basis-4/5 overflow-y-auto">
         @if(IsLoading)
         {
-            <Loading />
+            <Loading Message="Retrieving GraphQL data..." />
         }
         else if (Products.Count > 0)
         {
-            <Summary NumberOfItems="@(Products.Count)" AveragePrice="@(Products.Average(p => p.ListPrice))" MostRecentRelease="@(Products.Max(p => p.SellStartDate))" />
+            <Summary ResponseTime="@(RunTime)" AveragePrice="@(Products.Average(p => p.Price))" AverageCost="@(Products.Average(p => p.Cost))" />
             <Table Products="@Products" />
         }
         else {
@@ -30,14 +32,32 @@
 </main>
 
 @code {
-    private Random Random { get; } = new Random();
     private List<Product> Products { get; } = [];
     private bool IsLoading { get; set; } = true;
+    private TimeSpan RunTime { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        // TODO: Get products from API
+        IsLoading = true;
+        
+        Products.Clear();
+
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
+
+        IEnumerable<Product> products = await productsService.GetProductsAsync();
+        
+        stopwatch.Stop();
+        RunTime = stopwatch.Elapsed;
+
+        Products.AddRange(products);
 
         IsLoading = false;
     }
-}
+}    using System.Diagnostics;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\sidandrews\Samples\dab-azure-cosmos-db-nosql-quickstart\src\web\Components\Pages\Home.razor"

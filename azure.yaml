@@ -15,13 +15,13 @@ hooks:
   postprovision:
     windows:
       run: |
-        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:ENDPOINT" "$env:CONFIGURATION__DATAAPIBUILDER__ENDPOINT" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
+        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$env:CONFIGURATION__DATAAPIBUILDER__BASEAPIURL" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
       shell: pwsh
       continueOnError: false
       interactive: true
     posix:
       run: |
-        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:ENDPOINT" "$CONFIGURATION__DATAAPIBUILDER__ENDPOINT" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
+        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$CONFIGURATION__DATAAPIBUILDER__BASEAPIURL" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
       shell: sh
       continueOnError: false
       interactive: true

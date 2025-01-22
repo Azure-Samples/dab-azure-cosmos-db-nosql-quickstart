@@ -8,7 +8,7 @@ public sealed record Product
     /// <summary>
     /// Gets the unique identifier for the product.
     /// </summary>
-    public required int ProductID { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
     /// Gets the name of the product.
@@ -16,17 +16,22 @@ public sealed record Product
     public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the product number.
+    /// Gets the description for the product.
     /// </summary>
-    public required string ProductNumber { get; init; }
+    public required string Description { get; init; }
+
+    /// <summary>
+    /// Gets the stock keeping unit (SKU) for the product.
+    /// </summary>
+    public required string SKU { get; init; }
 
     /// <summary>
     /// Gets the list price of the product.
     /// </summary>
-    public required decimal ListPrice { get; init; }
+    public required decimal Price { get; init; }
 
     /// <summary>
-    /// Gets the date when the product starts selling.
+    /// Gets the actual cost of the product.
     /// </summary>
-    public required DateTime SellStartDate { get; init; }
+    public required decimal Cost { get; init; }
 }
