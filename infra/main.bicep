@@ -95,7 +95,7 @@ module deploymentScriptPs 'br/public:avm/res/resources/deployment-script:0.5.1' 
     location: location
     tags: tags
     kind: 'AzureCLI'
-    azCliVersion: 'latest'
+    azCliVersion: 'az13.0'
     managedIdentities: {
       userAssignedResourceIds: [
         managedIdentity.outputs.resourceId
@@ -118,7 +118,7 @@ module deploymentScriptCli 'br/public:avm/res/resources/deployment-script:0.5.1'
     location: location
     tags: tags
     kind: 'AzureCLI'
-    azCliVersion: 'latest'
+    azCliVersion: '2.64'
     managedIdentities: {
       userAssignedResourceIds: [
         managedIdentity.outputs.resourceId
