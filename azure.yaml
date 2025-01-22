@@ -2,26 +2,33 @@
 
 name: dab-azure-cosmos-db-nosql-quickstart
 services:
+  api:
+    project: ./src/api
+    language: python
+    host: containerapp
+    docker:
+      path: Dockerfile
+      context: ./
   web:
     project: ./src/web
     language: csharp
     host: containerapp
     docker:
-      path: ../Dockerfile
-      context: ../
+      path: Dockerfile
+      context: ./
 pipeline:
   provider: github
 hooks:
   postprovision:
     windows:
       run: |
-        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$env:CONFIGURATION__DATAAPIBUILDER__BASEAPIURL" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
+        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$env:AZURE_CONTAINER_APPS_API_ENDPOINT" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
       shell: pwsh
       continueOnError: false
       interactive: true
     posix:
       run: |
-        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$CONFIGURATION__DATAAPIBUILDER__BASEAPIURL" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
+        dotnet user-secrets set "CONFIGURATION:DATAAPIBUILDER:BASEAPIURL" "$AZURE_CONTAINER_APPS_API_ENDPOINT" --project ./src/web/Microsoft.Samples.DataApiBuilder.AzureCosmosDBNoSQLQuickstartWeb.csproj
       shell: sh
       continueOnError: false
       interactive: true
