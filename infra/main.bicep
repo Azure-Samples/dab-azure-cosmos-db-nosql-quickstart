@@ -248,7 +248,7 @@ module containerAppsWebApp 'br/public:avm/res/app/container-app:0.12.0' = {
     environmentResourceId: containerAppsEnvironment.outputs.resourceId
     location: location
     tags: union(tags, { 'azd-service-name': webServiceName })
-    ingressTargetPort: 8000
+    ingressTargetPort: 8080
     ingressExternal: true
     ingressTransport: 'auto'
     stickySessionsAffinity: 'sticky'
@@ -270,7 +270,7 @@ module containerAppsWebApp 'br/public:avm/res/app/container-app:0.12.0' = {
       secureList: [
         {
           name: 'data-api-builder-endpoint'
-          value: containerAppsApiApp.outputs.fqdn
+          value: '${containerAppsApiApp.outputs.fqdn}/graphql'
         }
       ]
     }

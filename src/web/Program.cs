@@ -6,8 +6,16 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton<GraphQLHttpClient>(serviceProvider =>
 {
     Configuration configuration = serviceProvider.GetRequiredService<IOptions<Configuration>>().Value;
+
+    string? endpoint = configuration?.DataApiBuilder?.BaseApiUrl;
+
+    if (string.IsNullOrWhiteSpace(endpoint))
+    {
+        throw new InvalidOperationException("The Data API builder (DAB) endpoint is not configured. Configure the DAB endpoint using the \"CONFIGURATION:DATAAPIBUILDER:BASEAPIURL\" configuration setting.");
+    }
+
     return new GraphQLHttpClient(
-        configuration.DataApiBuilder.BaseApiUrl,
+        endpoint,
         serializer: new SystemTextJsonSerializer()
     );
 });
