@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="GraphQL.Client" Version="6.1.0" />
+    <PackageVersion Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.1.0" />
+    <PackageVersion Include="Humanizer" Version="2.14.1" />
+  </ItemGroup>
+</Project>

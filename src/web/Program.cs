@@ -1,11 +1,46 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using DAB.Samples.AzureSQL.Quickstart.Web;
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddSingleton<GraphQLHttpClient>(serviceProvider =>
+{
+    Configuration configuration = serviceProvider.GetRequiredService<IOptions<Configuration>>().Value;
 
-await builder.Build().RunAsync();
+    string? endpoint = configuration?.DataApiBuilder?.BaseApiUrl;
+
+    if (string.IsNullOrWhiteSpace(endpoint))
+    {
+        throw new InvalidOperationException("The Data API builder (DAB) endpoint is not configured. Configure the DAB endpoint using the \"CONFIGURATION:DATAAPIBUILDER:BASEAPIURL\" configuration setting.");
+    }
+
+    return new GraphQLHttpClient(
+        endpoint,
+        serializer: new SystemTextJsonSerializer()
+    );
+});
+
+builder.Services.Configure<Configuration>(
+    builder.Configuration.GetSection(nameof(Configuration))
+);
+
+builder.Services.AddScoped<IProductsService, DataApiBuilderProductsService>();
+
+WebApplication app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAntiforgery();
+
+app.MapStaticAssets();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run();
