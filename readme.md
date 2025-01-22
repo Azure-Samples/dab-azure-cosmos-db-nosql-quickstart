@@ -51,9 +51,6 @@ Follow these steps to authenticate to Azure, initialize thetemplate, provision i
     azd init --template dab-azure-cosmos-db-nosql-quickstart
     ```
 
-    > [!NOTE]
-    > Omit the --template argument if you are running in a development container.
-
 1. Provision the resources in Azure and deploy the application code.
 
     ```shell
