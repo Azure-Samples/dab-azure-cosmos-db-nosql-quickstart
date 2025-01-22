@@ -79,7 +79,7 @@ module cosmosDbAccount 'br/public:avm/res/document-db/database-account:0.8.1' = 
           {
             name: 'products'
             paths: [
-              '/category'
+              '/category/name'
             ]
           }
         ]
@@ -88,48 +88,30 @@ module cosmosDbAccount 'br/public:avm/res/document-db/database-account:0.8.1' = 
   }
 }
 
-module deploymentScriptPs 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module deploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = {
   name: 'deployment-script-ps'
   params: {
-    name: 'deployment-script-${resourceToken}'
-    location: location
-    tags: tags
-    kind: 'AzureCLI'
-    azCliVersion: 'az13.0'
+    name: 'deployment-script-ps-demo'
+    location: resourceGroup().location
+    kind: 'AzurePowerShell'
+    azPowerShellVersion: '12.0'
+    runOnce: true
     managedIdentities: {
       userAssignedResourceIds: [
         managedIdentity.outputs.resourceId
       ]
     }
+    environmentVariables: [
+      {
+        name: 'AZURE_COSMOS_DB_ENDPOINT'
+        value: cosmosDbAccount.outputs.endpoint
+      }
+    ]
     scriptContent: '''
-        dotnet --list-sdks
-  
-        Get-InstalledModule -Name Az -AllVersions
-        
-        Get-AzContext
-      '''
-  }
-}
-
-module deploymentScriptCli 'br/public:avm/res/resources/deployment-script:0.5.1' = {
-  name: 'deployment-script-cli'
-  params: {
-    name: 'deployment-script-${resourceToken}'
-    location: location
-    tags: tags
-    kind: 'AzureCLI'
-    azCliVersion: '2.64'
-    managedIdentities: {
-      userAssignedResourceIds: [
-        managedIdentity.outputs.resourceId
-      ]
-    }
-    scriptContent: '''
-      dotnet --list-sdks
-
-      az --version
-      
-      az account show
+      apt-get update
+      apt-get install -y dotnet-sdk-8.0 
+      dotnet tool install cosmicworks --tool-path ~/dotnet-tool
+      ~/dotnet-tool/cosmicworks --endpoint "${Env:AZURE_COSMOS_DB_ENDPOINT}" --number-of-products 100 --number-of-employees 0 --role-based-access-control --hide-credentials --disable-hierarchical-partition-keys --disable-formatting
     '''
   }
 }
@@ -270,7 +252,7 @@ module containerAppsWebApp 'br/public:avm/res/app/container-app:0.12.0' = {
       secureList: [
         {
           name: 'data-api-builder-endpoint'
-          value: '${containerAppsApiApp.outputs.fqdn}/graphql'
+          value: 'http://${containerAppsApiApp.outputs.fqdn}/graphql'
         }
       ]
     }
